@@ -5,6 +5,7 @@ export function logger(req: Request, res: Response, next: NextFunction): void {
 
   res.on('finish', () => {
     // Se ejecuta cuando la petición ha terminado después de pasar por todos los middlewares y handlers
+   
     const duration = Math.round(performance.now() - start);
     const entry = {
       requestId: req.requestId,
@@ -16,6 +17,7 @@ export function logger(req: Request, res: Response, next: NextFunction): void {
     };
     console.log(JSON.stringify(entry)); // Loguea en pantalla la información de la petición
   });
+  
 
   next();
 }

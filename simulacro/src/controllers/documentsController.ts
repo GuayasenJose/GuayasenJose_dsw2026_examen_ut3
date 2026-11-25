@@ -2,6 +2,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as documentsService from '../services/documentsService.js';
 import { AppError } from '../errors/AppError.js';
+import { ResourceNotFoundError } from '../errors/ResourceNotFoundError.js';
 
 // Listar documentos
 export function list(req: Request, res: Response, next: NextFunction): void {
@@ -25,10 +26,11 @@ export function getById(
     const document = documentsService.getById(String(req.params.documentId));
 
     if (!document) {
-      throw new AppError(
+      throw new ResourceNotFoundError(
         404,
         `Document with id '${req.params.documentId}' not found`,
-        'NOT_FOUND',
+        'RESOURCE_NOT_FOUND',
+        String(req.params.documentId)
       );
     }
 
@@ -71,10 +73,17 @@ export function update(
   try {
     const { title, description } = req.body;
 
-    if (title !== undefined && typeof title !== 'string') {
+    if (title !== undefined) {
+     if (typeof title !== 'string') {
       throw new AppError(400, 'Invalid title', 'BAD_REQUEST');
     }
 
+    if (title.trim() === '') {
+      throw new AppError(400, 'Invalid title', 'Title must be a non-empty string');
+    }
+  }
+
+     
     if (description !== undefined && typeof description !== 'string') {
       throw new AppError(400, 'Invalid description', 'BAD_REQUEST');
     }
@@ -89,10 +98,11 @@ export function update(
     );
 
     if (!document) {
-      throw new AppError(
+      throw new ResourceNotFoundError(
         404,
         `Document with id '${req.params.documentId}' not found`,
-        'NOT_FOUND',
+        'RESOURCE_NOT_FOUND',
+        String(req.params.documentId)
       );
     }
 

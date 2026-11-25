@@ -9,6 +9,7 @@ import { notFound } from './middlewares/notFound.js';
 import { requestId } from './middlewares/requestId.js';
 import { articlesRouter } from './routes/articles.js';
 import { questionsRouter } from './routes/questions.js';
+import { noticesRouter } from './routes/notices.js';
 
 export function createApp(): Application {
   const app = express();
@@ -21,6 +22,7 @@ export function createApp(): Application {
   app.use('/api/v1/articles', articlesRouter);
   app.use('/api/v1/documents', documentsRouter);
   app.use('/api/v1/questions', questionsRouter);
+  app.use('/api/v1/notices', noticesRouter); // ← NUEVO
 
   app.use(notFound); // only reached when no router answered
   app.use(errorHandler); // always last

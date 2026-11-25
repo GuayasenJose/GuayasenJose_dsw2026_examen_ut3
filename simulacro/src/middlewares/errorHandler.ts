@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 
 import { env } from '../config/env.js';
 import { AppError } from '../errors/AppError.js';
+import { ResourceNotFoundError } from '../errors/ResourceNotFoundError.js';
 
 // Express recognises an error handler because it has FOUR parameters.
 // `_next` is never used, but it must be there: with three parameters Express
@@ -27,6 +28,10 @@ export function errorHandler(
   if (err instanceof AppError) {
     res.status(err.statusCode).json({ error: err.code ?? 'ERROR', message: err.message });
     return;
+  }
+
+   if (err instanceof ResourceNotFoundError) {
+    res.status(404).json({ error: err.code ?? 'RESOURCE_NOT_FOUND', message: "Document with id 'no existes' not found", resourceId: "no existe" });
   }
 
   // express.json() throws a SyntaxError when the body is not valid JSON.
