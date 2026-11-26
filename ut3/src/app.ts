@@ -12,16 +12,20 @@ import { notFound } from './middlewares/notFound.js';
 import { requestId } from './middlewares/requestId.js';
 import { articlesRouter } from './routes/articles.js';
 import { healthRouter } from './routes/health.js';
+import { env } from './config/env.js';
 
 export function createApp(): Application {
   const app = express();
+  const isDepuration = env.DEPURACION;
 
   app.use(requestId); // first: everything after it can read req.requestId
   app.use(logger);
   app.use(express.json());
 
   app.use((req, _res, next) => {
-    console.log('[3] JSON procesado', req.requestId, req.body);
+    if(isDepuration === "1"){
+      console.log('[3] JSON procesado', req.requestId, req.body);
+    }
     next();
   });
 

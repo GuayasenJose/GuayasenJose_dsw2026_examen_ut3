@@ -16,13 +16,29 @@ export interface ArticleChanges {
 }
 
 // The in-memory array now lives here, not in the routes.
-const articles: Article[] = [];
+const articles: Article[] = [
+  {
+    id: '11111111-1111-4111-8111-111111111111',
+    title: 'Guía pública del centro',
+    description: 'Sin descripcion',
+    createdAt: '2026-09-01T08:00:00.000Z',
+  },
+  {
+    id: '22222222-2222-4222-8222-222222222222',
+    title: 'Normas de convivencia',
+    description: 'hola buenas',
+    createdAt: '2026-09-01T08:00:00.000Z',
+  },
+];
 
-export function list(page: number, limit: number) {
-  const start = (page - 1) * limit;
+export function list(page: number, limit: number, sinDescripcion: number) {
+  const start = (page - 1) * limit ;
+  const filteredDocuments = articles.filter( 
+      (article) => article.description === 'Sin descripcion', 
+    ); 
   return {
-    data: articles.slice(start, start + limit),
-    pagination: { page, limit, total: articles.length },
+    data: articles.slice( page, start + limit,  ),
+    pagination: { page, limit, total: articles.length, sinDescripcion: filteredDocuments },
   };
 }
 
