@@ -1,7 +1,16 @@
 import type { Request, Response, NextFunction } from 'express';
 
 export function logger(req: Request, res: Response, next: NextFunction): void {
+  if (process.env.LOG !== 'OFF') {
+    console.log(
+      `[${new Date().toISOString()}] ${req.method} ${req.path} - Request ID: ${req.requestId}`,
+    );
+  }
+  
+  
   const start = performance.now(); // Empieza a medir lo que tarda la petición
+
+
 
   res.on('finish', () => {
     // Se ejecuta cuando la petición ha terminado después de pasar por todos los middlewares y handlers

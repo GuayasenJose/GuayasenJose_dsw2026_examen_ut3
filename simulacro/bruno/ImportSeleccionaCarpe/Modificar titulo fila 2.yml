@@ -1,0 +1,31 @@
+info:
+  name: Modificar titulo fila 2
+  type: http
+  seq: 6
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/api/v1/admin/documents/:documentId"
+  params:
+    - name: documentId
+      value: 22222222-2222-4222-8222-222222222222
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "title":"Sergio"
+      }
+  auth: inherit
+
+runtime:
+  variables:
+    - name: baseUrl
+      value: http://localhost:3000
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -74,13 +74,10 @@ export function update(
     const { title, description } = req.body;
 
     if (title !== undefined) {
-     if (typeof title !== 'string') {
+     if (typeof title !== 'string' || title.trim() === '') {
       throw new AppError(400, 'Invalid title', 'BAD_REQUEST');
     }
 
-    if (title.trim() === '') {
-      throw new AppError(400, 'Invalid title', 'Title must be a non-empty string');
-    }
   }
 
      

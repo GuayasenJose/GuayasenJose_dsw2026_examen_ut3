@@ -1,0 +1,25 @@
+info:
+  name: Id inexistente
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{baseUrl}}/api/v1/admin/documents/:documentId"
+  params:
+    - name: documentId
+      value: "23232323232"
+      type: path
+  auth: inherit
+
+runtime:
+  variables:
+    - name: baseUrl
+      value: http://localhost:3000
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
